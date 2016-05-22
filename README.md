@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Train a Smartcab How to Drive
 
 Reinforcement Learning Project
@@ -21,3 +22,7 @@ Make sure you are in the top-level project directory `smartcab/` (that contains 
 OR:
 
 ```python -m smartcab.agent```
+||||||| merged common ancestors
+=======
+# Reinforcement_Learning
+>>>>>>> 0462c16c67b8ba6f19b85407ecab75f6c223e367
