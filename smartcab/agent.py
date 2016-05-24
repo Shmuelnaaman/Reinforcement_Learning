@@ -14,8 +14,12 @@ class LearningAgent(Agent):
         # simple route planner to get next_waypoint
         self.planner = RoutePlanner(self.env, self)
         # TODO: Initialize any additional variables here
+
         # Possible actions
-        self.reward_Total= 0 
+        #statistics
+        self.total = 0
+        self.success = 0
+        self.reward_Total = 0 
         actions = self.env.valid_actions
         # Traffic light state choices
         traffic_light = ['red', 'green']
@@ -36,36 +40,59 @@ class LearningAgent(Agent):
 
     def update(self, t):
         # Gather inputs
-        # from route planner, also displayed by simulator
-        Next_waypoint = self.planner.next_waypoint()
+        # from route planner, also displayed by simulator 
+        self.next_waypoint = self.planner.next_waypoint()
         # TODO: Update state
         inputs = self.env.sense(self)
         deadline = self.env.get_deadline(self)
-        self.state = (inputs['light'], Next_waypoint, inputs['oncoming'])
+        self.state = (inputs['light'], self.next_waypoint, inputs['oncoming'])
 
         print '-------'
-        print 'Self State : ' , self.state
+        print 'Self State : ', self.state
         print 'Deadline : ', deadline
-        print 'Next_waypoint : ', Next_waypoint
+        print 'Next_waypoint : ', self.next_waypoint
         # TODO: Select action according to your policy
 
         # random action each ~7 steps think how to varies this with learning
         M_Q = self.Q_table[self.state]
-        if random.choice(['False', 'True', 'False', 'False', 'False', 'False', 'False'])=='True':
+        
+        epsilon = 0.9/(1+  self.total)
+        gamma = 0.7
+        alpha = 0.3
+        r = random.random()
+        
+        if epsilon > r:
+            # Exploration
             action = random.choice([None, 'forward', 'left', 'right'])
         else:
-            # if all values are == 0 choose Next_waypoint
+           
             if all(value == 0 for value in M_Q.values()):
-                action = Next_waypoint
+                # if all values are == 0 choose random direction,
+                # action = random.choice([None, 'forward', 'left', 'right'])
+                # But a better stratagy will be to use the direction learned when no one was on the cross road 
+                M_Q_t= self.Q_table[ (self.state [0], self.state [1] , None)]
+                action =  max(M_Q_t, key=M_Q_t.get)
             else:
+                # Exploitation
                 # else choose max Q
                 action = max(M_Q, key=M_Q.get)
 
         # Execute action and get reward
-        print 'Action :' , action
+        print 'Action :', action
         reward = self.env.act(self, action)
-        self.reward_Total+=reward
         print 'Reward : ', reward
+        # Statistics
+        add_total = False
+        if deadline == 0:
+            add_total = True
+        if reward > 5:
+            self.success += 1
+            add_total = True
+        if add_total:
+            self.total += 1
+            print("success: {} / {}".format(self.success, self.total))
+        self.reward_Total+=reward
+        
         # sense the new position
         # from route planner, also displayed by simulator
         Next_waypoint_new = self.planner.next_waypoint()
@@ -76,7 +103,6 @@ class LearningAgent(Agent):
 
         # TODO: Update state
 
-
         print '-------'
         # TODO: Update state
 
@@ -84,14 +110,17 @@ class LearningAgent(Agent):
         # Set the tuning parameters
 
        #  print "LearningAgent.update(): deadline = {}, inputs = {}, action = {}, reward = {}".format(deadline, inputs, action, reward)  # [debug]
-        gamma = 0.1
-        alpha = 0.5
+
 
         self.Q_table[self.state][action] = \
             (1-alpha) * (self.Q_table[self.state][action]) + \
             alpha * (reward + gamma * max(self.Q_table[state_new].values()))
-        print self.reward_Total
+        if self.total==20:    
+            print self.reward_Total
 
+        if self.total==100:
+            print self.reward_Total
+            print self.Q_table
 def run():
     """Run the agent for a finite number of trials."""
 
@@ -102,8 +131,8 @@ def run():
 
     # Now simulate it
     # reduce update_delay to speed up simulation
-    sim = Simulator(e, update_delay=0.001)
-    sim.run(n_trials=10)  # press Esc or close pygame window to quit
+    sim = Simulator(e, update_delay=0.0001)
+    sim.run(n_trials=20)  # press Esc or close pygame window to quit
    
 
 if __name__ == '__main__':
