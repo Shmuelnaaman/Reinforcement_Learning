@@ -1,7 +1,8 @@
 
 # Train a Smartcab How to Drive
 
-Reinforcement Learning Project
+## Reinforcement Learning Project
+## Please read the Report for detailed analysis. 
 
 ## Install
 
@@ -23,6 +24,6 @@ OR:
 
 ```python -m smartcab.agent```
 
-## Please read the Report for detailed analysis. 
+
 
 
