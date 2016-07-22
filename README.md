@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Train a Smartcab How to Drive
 
 Reinforcement Learning Project
