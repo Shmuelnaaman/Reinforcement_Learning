@@ -6,7 +6,7 @@
 
 ## Please read the Report for detailed analysis. 
 
-### This project requires Python 2.7 with the pygame library installed:
+### This code requires Python 2.7 with the pygame library installed:
 
 https://www.pygame.org/wiki/GettingStarted
 
