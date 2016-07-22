@@ -1,7 +1,7 @@
 
 # Train a Smartcab How to Drive
 
-## Reinforcement Learning Project
+## Reinforcement Learning 
 ### In this project I am using Reinforcement Learning (Q-learning), to train a self driving cab to find its way to the target using the shortest way while making sure the cab following the traffic rules . 
 
 ## Please read the Report for detailed analysis. 
