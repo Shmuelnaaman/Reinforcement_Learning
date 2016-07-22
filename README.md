@@ -2,17 +2,17 @@
 # Train a Smartcab How to Drive
 
 ## Reinforcement Learning Project
+### In this project I am using Reinforcement Learning (Q-learning), to train a self driving cab to find its way to the target using the shortest way while making sure the cab following the traffic rules . 
+
 ## Please read the Report for detailed analysis. 
 
-## Install
-
-This project requires Python 2.7 with the pygame library installed:
+### This project requires Python 2.7 with the pygame library installed:
 
 https://www.pygame.org/wiki/GettingStarted
 
 ## Code
 
-Open `smartcab/agent.py` and implement `LearningAgent`. Follow `TODO`s for further instructions.
+ `smartcab/agent.py` 
 
 ## Run
 
@@ -23,7 +23,3 @@ Make sure you are in the top-level project directory `smartcab/` (that contains 
 OR:
 
 ```python -m smartcab.agent```
-
-
-
-
